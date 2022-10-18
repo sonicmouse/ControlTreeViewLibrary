@@ -96,6 +96,37 @@ namespace test
 			((DataGridView)cTreeView1.Nodes[1].Nodes[1].Nodes[0].Control).Columns.Add("2", "2");
 			((DataGridView)cTreeView1.Nodes[1].Nodes[1].Nodes[0].Control).Rows.Add(new string[] { "a", "b" });
 			cTreeView1.EndUpdate();
+
+			cTreeView4.BeginUpdate();
+
+			cTreeView4.Nodes.Add(new CTreeNode(new Label { Text = "one", AutoSize = true }));
+
+			cTreeView4.Nodes[0].Nodes.Add(new CTreeNode(new ListView
+			{
+				HeaderStyle = ColumnHeaderStyle.None,
+				GridLines = true,
+				View = View.Details,
+				FullRowSelect = true,
+				Columns = { new ColumnHeader { }, new ColumnHeader { } },
+				Items = { new ListViewItem { Text = "hello", SubItems = { new ListViewItem.ListViewSubItem { Text = "subitem" } } }, new ListViewItem { Text = "hello 2" } },
+				Width = 400
+			}));
+
+			cTreeView4.Nodes.Add(new CTreeNode(new Label { Text = "two", AutoSize = true }));
+			cTreeView4.Nodes[1].Nodes.Add(new CTreeNode(new ListView
+			{
+				HeaderStyle = ColumnHeaderStyle.None,
+				GridLines = true,
+				View = View.Details,
+				FullRowSelect = true,
+				Columns = { new ColumnHeader { }, new ColumnHeader { } },
+				Items = { new ListViewItem { Text = "hello", SubItems = { new ListViewItem.ListViewSubItem { Text = "subitem" } } }, new ListViewItem { Text = "hello 2" } },
+				Width = 400
+			}));
+
+			cTreeView4.EndUpdate();
+
+			tabControl1.SelectedIndex = 3;
 		}
 
 		private void CTreeView3_AfterSelect(object sender, CTreeViewEventArgs e)
