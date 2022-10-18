@@ -8,17 +8,24 @@
 		<LangVersion>preview</LangVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>ControlTreeView</Title>
-		<Version>1.0.0</Version>
+		<Version>1.1.0</Version>
 		<RepositoryUrl>https://github.com/sonicmouse/ControlTreeViewLibrary</RepositoryUrl>
+		<Description>Advanced TreeView control for .NET WinForms that supports more features, different layouts and any controls in the nodes.</Description>
+		<PackageProjectUrl>https://github.com/sonicmouse/ControlTreeViewLibrary</PackageProjectUrl>
+		<PackageIcon>ControlTreeView.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<Using Remove="System.Net.Http" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<EmbeddedResource Include="Resources\minus.bmp" />
 		<EmbeddedResource Include="Resources\plus.bmp" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="ControlTreeView.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>
