@@ -13,6 +13,7 @@
 		<Description>Advanced TreeView control for .NET WinForms that supports more features, different layouts and any controls in the nodes.</Description>
 		<PackageProjectUrl>https://github.com/sonicmouse/ControlTreeViewLibrary</PackageProjectUrl>
 		<PackageIcon>ControlTreeView.png</PackageIcon>
+		<Company>Vyacheslav Chernykh and Andrew Heinlein</Company>
 	</PropertyGroup>
 
 	<ItemGroup>
