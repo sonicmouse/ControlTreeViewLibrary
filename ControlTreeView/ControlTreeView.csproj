@@ -8,12 +8,12 @@
 		<LangVersion>preview</LangVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>ControlTreeView</Title>
-		<Version>1.2.0</Version>
+		<Version>1.3.0</Version>
 		<RepositoryUrl>https://github.com/sonicmouse/ControlTreeViewLibrary</RepositoryUrl>
 		<Description>Advanced TreeView control for .NET WinForms that supports more features, different layouts and any controls in the nodes.</Description>
 		<PackageProjectUrl>https://github.com/sonicmouse/ControlTreeViewLibrary</PackageProjectUrl>
 		<PackageIcon>ControlTreeView.png</PackageIcon>
-		<Company>Vyacheslav Chernykh and Andrew Heinlein</Company>
+		<Authors>Vyacheslav Chernykh, Andrew Heinlein</Authors>
 	</PropertyGroup>
 
 	<ItemGroup>
