@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-
-namespace ControlTreeView
+﻿namespace ControlTreeView
 {
     /// <summary>
     /// Provides selection logic and DragAndDrop logic for the CTreeNode.Control.

@@ -1,6 +1,21 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartAction>Program</StartAction>
-    <StartProgram>C:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe</StartProgram>
-  </PropertyGroup>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="CTreeView\CTreeView.DragDrop.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="CTreeView\CTreeView.Internal.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="CTreeView\CTreeView.Protected.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="CTreeView\CTreeView.Public.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="NodeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

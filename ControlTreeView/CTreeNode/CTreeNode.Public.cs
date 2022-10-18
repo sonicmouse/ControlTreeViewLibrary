@@ -1,8 +1,5 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Drawing;
-using System.ComponentModel;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 
 namespace ControlTreeView
 {
@@ -36,6 +33,7 @@ namespace ControlTreeView
             Visible = true;
             IsExpanded = true;
             Name = name;
+            _Control = control; // calm nullable static analysis.
             Control = control;
         }
         #endregion
@@ -45,41 +43,40 @@ namespace ControlTreeView
         /// <summary>
         /// Gets or sets the user control assigned to the current tree node.
         /// </summary>
-        [BrowsableAttribute(false)]
+        [Browsable(false)]
         public Control Control
         {
             get { return _Control; }
             set
             {
-                bool notNull = (OwnerCTreeView != null);
-                if (notNull)
+                if (OwnerCTreeView is not null)
                 {
                     OwnerCTreeView.Controls.Remove(_Control);
                     OwnerCTreeView.Controls.Add(value);
                 }
                 _Control = value;
                 if (value is INodeControl)((INodeControl)_Control).OwnerNode = this;
-                if (notNull) OwnerCTreeView.Recalculate();
+                if (OwnerCTreeView is not null) OwnerCTreeView.Recalculate();
             }
         }
 
         /// <summary>
         /// Gets the collection of CTreeNode objects assigned to the current tree node.
         /// </summary>
-        [BrowsableAttribute(false)]
+        [Browsable(false)]
         public CTreeNodeCollection Nodes { get; private set; }
 
         /// <summary>
         /// Gets the parent tree node of the current tree node.
         /// </summary>
-        [BrowsableAttribute(false)]
-        public CTreeNode ParentNode { get; internal set; }
+        [Browsable(false)]
+        public CTreeNode? ParentNode { get; internal set; }
 
         /// <summary>
         /// Gets the parent INodeContainer of the current tree node.
         /// </summary>
-        [BrowsableAttribute(false)]
-        public INodeContainer Parent
+        [Browsable(false)]
+        public INodeContainer? Parent
         {
             get
             {
@@ -106,12 +103,13 @@ namespace ControlTreeView
             }
         }
 
-        private CTreeView _OwnerCTreeView;
+        private CTreeView? _OwnerCTreeView;
+
         /// <summary>
         /// Gets the parent tree view that the tree node is assigned to.
         /// </summary>
-        [BrowsableAttribute(false)]
-        public CTreeView OwnerCTreeView
+        [Browsable(false)]
+        public CTreeView? OwnerCTreeView
         {
             get { return _OwnerCTreeView; }
             internal set
@@ -131,17 +129,17 @@ namespace ControlTreeView
         /// <summary>
         /// Gets or sets the object that contains data about the tree node.
         /// </summary>
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         /// <summary>
         /// Gets the next sibling tree node.
         /// </summary>
-        [BrowsableAttribute(false)]
-        public CTreeNode NextNode
+        [Browsable(false)]
+        public CTreeNode? NextNode
         {
             get
             {
-                if (Index >= 0 && Index < Parent.Nodes.Count - 1) return Parent.Nodes[Index + 1];
+                if (Parent is not null && Index >= 0 && Index < Parent.Nodes.Count - 1) return Parent.Nodes[Index + 1];
                 else return null;
             }
         }
@@ -149,12 +147,12 @@ namespace ControlTreeView
         /// <summary>
         /// Gets the previous sibling tree node.
         /// </summary>
-        [BrowsableAttribute(false)]
-        public CTreeNode PrevNode
+        [Browsable(false)]
+        public CTreeNode? PrevNode
         {
             get
             {
-                if (Index > 0) return Parent.Nodes[Index - 1];
+                if (Index > 0 && Parent is not null) return Parent.Nodes[Index - 1];
                 else return null;
             }
         }
@@ -163,8 +161,8 @@ namespace ControlTreeView
         /// Gets the first child tree node in the tree node collection.
         /// </summary>
         /// <value>The first child CTreeNode in the Nodes collection.</value>
-        [BrowsableAttribute(false)]
-        public CTreeNode FirstNode
+        [Browsable(false)]
+        public CTreeNode? FirstNode
         {
             get
             {
@@ -177,8 +175,8 @@ namespace ControlTreeView
         /// Gets the last child tree node in the tree node collection.
         /// </summary>
         /// <value>A CTreeNode that represents the last child tree node.</value>
-        [BrowsableAttribute(false)]
-        public CTreeNode LastNode
+        [Browsable(false)]
+        public CTreeNode? LastNode
         {
             get
             {
@@ -191,14 +189,18 @@ namespace ControlTreeView
         /// <summary>
         /// Gets the zero-based depth of the tree node in the CTreeView.
         /// </summary>
-        //[BrowsableAttribute(false)]
+        //[Browsable(false)]
         public int Level
         {
             get { return _Level; }
             internal set
             {
                 _Level = value;
-                Nodes.TraverseNodes(node => { node._Level = node.ParentNode.Level + 1; });
+                Nodes.TraverseNodes(node =>
+                {
+                    Debug.Assert(node.ParentNode is not null);
+                    node._Level = node.ParentNode?.Level + 1 ?? 0;
+                });
             }
         }
 
@@ -212,7 +214,7 @@ namespace ControlTreeView
             {
                 if (OwnerCTreeView == null) throw new InvalidOperationException("The node is not contained in a CTreeView.");
                 if (Level == 0) return Name;
-                else return ParentNode.FullPath + OwnerCTreeView.PathSeparator + Name;
+                else return ParentNode?.FullPath + OwnerCTreeView.PathSeparator + Name;
             }
         }
 
@@ -225,7 +227,7 @@ namespace ControlTreeView
         /// <summary>
         /// Gets or sets a value indicating whether the tree node is in the selected state.
         /// </summary>
-        [BrowsableAttribute(false)]
+        [Browsable(false)]
         public bool IsSelected
         {
             get
@@ -365,7 +367,7 @@ namespace ControlTreeView
         //?
         public void Drag()
         {
-            if (OwnerCTreeView.DragAndDropMode != CTreeViewDragAndDropMode.Nothing && IsSelected)
+            if (OwnerCTreeView is not null && OwnerCTreeView.DragAndDropMode != CTreeViewDragAndDropMode.Nothing && IsSelected)
             {
                 //Checking that all selected nodes has same parent
                 bool checkSameParent = true;
@@ -376,7 +378,7 @@ namespace ControlTreeView
                 //Prepare and sort the dragged nodes
                 if (checkSameParent)
                 {
-                    List<CTreeNode> draggedNodes = new List<CTreeNode>(OwnerCTreeView.SelectedNodes);
+                    var draggedNodes = new List<CTreeNode>(OwnerCTreeView.SelectedNodes);
                     draggedNodes.Sort(new System.Comparison<CTreeNode>(new Func<CTreeNode, CTreeNode, int>((node1, node2) => node1.Index - node2.Index)));
                     OwnerCTreeView.DoDragDrop(draggedNodes, DragDropEffects.All);
                 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ControlTreeView
+﻿namespace ControlTreeView
 {
     /// <summary>
     /// The container for CTreeNodeCollection.
@@ -21,17 +15,17 @@ namespace ControlTreeView
         /// <summary>
         /// Gets the first child tree node in the tree node collection.
         /// </summary>
-        CTreeNode FirstNode { get; }
+        CTreeNode? FirstNode { get; }
 
         /// <summary>
         /// Gets the last child tree node in the tree node collection.
         /// </summary>
-        CTreeNode LastNode { get; }
+        CTreeNode? LastNode { get; }
 
         /// <summary>
         /// Gets the TreeView that the CTreeNodeCollection of this INodeContainer is assigned to.
         /// </summary>
-        CTreeView OwnerCTreeView { get; }
+        CTreeView? OwnerCTreeView { get; }
 
         /// <summary>
         /// Gets the bounds of this INodeContainer includes all child tree nodes.
