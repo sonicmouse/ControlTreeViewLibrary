@@ -47,3 +47,4 @@ Temporary Items
 /ControlTreeView/obj
 /.vs
 *.user
+/ControlTreeView/ControlTreeView.csproj.user
